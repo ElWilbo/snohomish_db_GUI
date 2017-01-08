@@ -5,7 +5,7 @@ import sqlite3 as lite
 #CONNECT TO DB
 con = lite.connect('snohomish.db')
 cur = con.cursor()
-data_pull = cur.execute('SELECT * FROM MAIN WHERE City = MONROE LIMIT 25')
+data_pull = cur.execute('SELECT * FROM MAIN LIMIT 25')
 
 
 class kqt_app(tk.Frame):
@@ -29,20 +29,20 @@ class kqt_app(tk.Frame):
 	#GENERATE SEARCH FUNCTION:
 	def generate_search(self):
 		self.city_var = str(self.entry_city.get())
-		print(self.entry_type.get())
+		print(type(self.entry_type.get()))
 		print(self.entry_zip.get())
 		print(self.entry_value.get())
 		
 		#USING THE ALL PLACE HOLDER WILL DO A SELECT ALL QUERY
 		if self.entry_city.get() == self.entry_type.get() == self.entry_zip.get() == self.entry_value.get() == 'ALL':
-			data_pull = cur.execute('SELECT * FROM MAIN LIMIT 10')
+			data_pull = cur.execute('SELECT * FROM MAIN LIMIT 25')
 			self.results_listbox.delete(0,tk.END)
 			for data in data_pull:
 				self.results_listbox.insert(tk.END, data)
 		
-		#IF ONLY CITY IS ENTERED
+		#IF ONLY CITY IS ENTERED  ?!?!?!?!?!?!?!?!?!?!?!?!?!?
 		if self.entry_city != 'ALL':
-			data_pull = cur.execute('SELECT * FROM MAIN WHERE SitusCity = MONROE LIMIT 25')
+			data_pull = cur.execute('SELECT * FROM MAIN WHERE SitusCity = ? LIMIT 25', (self.city_var,))
 			self.results_listbox.delete(0,tk.END)
 			for data in data_pull:
 				self.results_listbox.insert(tk.END, data)
